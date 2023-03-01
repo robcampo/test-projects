@@ -13,7 +13,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const { data: projects } = await github.rest.projects.listForRepo({ owner: context.repo.owner, repo: context.repo.repo });
-          const project = projects.find(p => p.name === 'My Project');
+          const project = projects.find(p => p.name === 'Test Project');
           if (!project) throw new Error('Project not found');
           const { data: columns } = await github.rest.projects.listColumns({ project_id: project.id });
           const column = columns.find(c => c.name === 'To do');
