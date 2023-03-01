@@ -14,7 +14,10 @@ jobs:
         script: |
           const { data: projects } = await github.rest.projects.listForRepo({ owner: context.repo.owner, repo: context.repo.repo });
           const project = projects.find(p => p.name === 'Test Project');
-          if (!project) throw new Error('Project not found');
+          if (!project) {
+            console.error(`Project not found. Available projects: ${projects.map(p => p.name).join(', ')}`);
+            return;
+          }
           const { data: columns } = await github.rest.projects.listColumns({ project_id: project.id });
           const column = columns.find(c => c.name === 'To do');
           if (!column) throw new Error('Column not found');
