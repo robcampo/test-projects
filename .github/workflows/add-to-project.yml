@@ -12,11 +12,12 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const { data: projects } = await github.projects.listForRepo({ owner: context.repo.owner, repo: context.repo.repo });
-          const project = projects.find(p => p.name === 'Test Project');
+          const { data: projects } = await github.rest.projects.listForRepo({ owner: context.repo.owner, repo: context.repo.repo });
+          const project = projects.find(p => p.name === 'My Project');
           if (!project) throw new Error('Project not found');
-          const { data: columns } = await github.projects.listColumns({ project_id: project.id });
+          const { data: columns } = await github.rest.projects.listColumns({ project_id: project.id });
           const column = columns.find(c => c.name === 'To do');
           if (!column) throw new Error('Column not found');
-          await github.projects.createCard({ column_id: column.id, content_id: context.payload.issue.id, content_type: 'Issue' });
+          await github.rest.projects.createCard({ column_id: column.id, content_id: context.payload.issue.id, content_type: 'Issue' });
+
 
