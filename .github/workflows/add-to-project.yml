@@ -18,5 +18,4 @@ jobs:
           const column = columns.find(c => c.name === 'To do');
           if (!column) throw new Error('Column not found');
           await github.projects.createCard({ column_id: column.id, content_id: context.payload.issue.id, content_type: 'Issue' });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
